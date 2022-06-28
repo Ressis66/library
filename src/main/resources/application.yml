@@ -1,0 +1,15 @@
+spring:
+ main:
+  lazy-initialization: true
+  allow-circular-references: true
+ datasource:
+  url: jdbc:h2:mem:testdb
+  username: dbuser
+  password: dbpassword
+  driver-class-name: org.h2.Driver
+sql:
+ init:
+  mode: always
+  data-locations: data.sql
+  schema-locations: schema.sql
+
