@@ -2,6 +2,7 @@ package ru.otus.library.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.dao.GenreDao;
 import ru.otus.library.domain.Genre;
 
@@ -30,6 +31,6 @@ public class GenreServiceImpl implements  GenreService{
 
   @Override
   public void deleteGenreById(long id) {
-     genreDao.deleteGenreById(id);
+    genreDao.deleteGenreById(id);
   }
 }

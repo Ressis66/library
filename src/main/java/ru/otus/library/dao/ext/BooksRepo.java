@@ -22,7 +22,9 @@ public class BooksRepo implements
       long id = rs.getLong("id");
       Book book = books.get(id);
       if (book == null) {
-        book = new Book(id, rs.getString("name"));
+        book = new Book(id, rs.getString("name"),
+                        new Author(rs.getString("authors_name")),
+                        new Genre(rs.getString("genres_name")));
         books.put(book.getId(), book);
       }
 
@@ -31,6 +33,4 @@ public class BooksRepo implements
     return books;
   }
 }
-
-
 

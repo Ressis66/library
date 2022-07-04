@@ -1,6 +1,5 @@
 package ru.otus.library.domain;
 
-import javax.annotation.processing.Generated;
 
 public class Author {
 
@@ -35,5 +34,13 @@ public class Author {
   public Author(Long id) {
     this.id = id;
 
+  }
+
+  @Override
+  public String toString() {
+    return "Author{" +
+
+        " name='" + name + '\'' +
+        '}';
   }
 }

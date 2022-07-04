@@ -55,10 +55,10 @@ public class BookDaoImpl implements BookDao {
 
   @Override
   public List<Book> readeAllBooks() {
-    Map<Long, Book> books = jdbcOperations.query("select books.id, books.name " +
-                "from books", new BooksRepo());
+    Map<Long, Book> books = jdbcOperations.query("select books.id, books.name, authors.name as authors_name, genres.name as genres_name " +
+        "from (books left join authors on books.author_id = authors.id) left join genres on books.genre_id = genres.id", new BooksRepo());
 
-      return new ArrayList<>(Objects.requireNonNull(books).values());
+    return new ArrayList<>(Objects.requireNonNull(books).values());
   }
 
   @Override

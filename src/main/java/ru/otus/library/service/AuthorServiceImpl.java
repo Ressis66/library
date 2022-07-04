@@ -15,7 +15,7 @@ public class AuthorServiceImpl implements AuthorService{
 
   @Override
   public void insertAuthor(String name) {
-     authorDao.insertAuthor(name);
+    authorDao.insertAuthor(name);
   }
 
   @Override

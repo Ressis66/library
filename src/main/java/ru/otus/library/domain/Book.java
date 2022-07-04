@@ -1,9 +1,18 @@
 package ru.otus.library.domain;
 
+
 public class Book {
+
  private Long id;
+
+
  private String name;
+
+
+
  private Author author;
+
+
  private Genre genre;
 
   public Book(Long id, String name, Author author, Genre genre) {
@@ -51,5 +60,15 @@ public class Book {
 
   public void setGenre(Genre genre) {
     this.genre = genre;
+  }
+
+  @Override
+  public String toString() {
+    return "Book{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", author=" + author +
+        ", genre=" + genre +
+        '}';
   }
 }

@@ -29,11 +29,11 @@ public class ShellCommand {
 
   @ShellMethod(key = "create_author", value = "create username")
   public void createAuthor(
-     @ShellOption({"username", "u"}) String username)  throws IOException {
+      @ShellOption({"username", "u"}) String username)  throws IOException {
 
     authorService.insertAuthor(username);
 
-    }
+  }
   @ShellMethod(key = "reade_authors", value = "read authors")
   public void readAllAuthors(){
     authorService.readeAllAuthors().stream().forEach(s -> System.out.println(s.getName()));
@@ -57,7 +57,7 @@ public class ShellCommand {
   }
   @ShellMethod(key = "reade_books", value = "read books")
   public void readAllBooks(){
-    bookService.readeAllBooks().stream().forEach(s -> System.out.println(s.getName()));
+    bookService.readeAllBooks().stream().forEach(s-> System.out.println(s));
   }
 
   @ShellMethod(key = "delete_books", value = "delete books")
@@ -85,4 +85,6 @@ public class ShellCommand {
   }
 
 }
+
+
 
