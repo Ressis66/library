@@ -2,11 +2,14 @@ package ru.otus.library.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.dao.BookDao;
 import ru.otus.library.domain.Book;
 
 import java.util.List;
+import java.util.Optional;
 
+@Transactional
 @Component
 public class BookServiceImpl implements BookService {
 
@@ -14,12 +17,12 @@ public class BookServiceImpl implements BookService {
   private BookDao bookDao;
 
   @Override
-  public void insertBook(String name, long genre_id, long author_id) {
-    bookDao.insertBook(name, genre_id, author_id);
+  public  void insertBook(Book book) {
+    bookDao.insertBook(book);
   }
 
   @Override
-  public Book readeBookById(long id) {
+  public Optional<Book> readeBookById(long id) {
     return bookDao.readeBookById(id);
   }
 

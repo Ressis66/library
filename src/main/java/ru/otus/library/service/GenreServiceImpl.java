@@ -6,6 +6,7 @@ import ru.otus.library.dao.GenreDao;
 import ru.otus.library.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class GenreServiceImpl implements  GenreService{
@@ -19,7 +20,7 @@ public class GenreServiceImpl implements  GenreService{
   }
 
   @Override
-  public Genre readeGenreById(long id) {
+  public Optional<Genre> readeGenreById(long id) {
     return genreDao.readeGenreById(id);
   }
 

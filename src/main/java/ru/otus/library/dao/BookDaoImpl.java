@@ -1,81 +1,55 @@
 package ru.otus.library.dao;
 
-import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import ru.otus.library.dao.ext.BooksRepo;
 import ru.otus.library.domain.Book;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
+import javax.persistence.EntityGraph;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 
 @Repository
 public class BookDaoImpl implements BookDao {
 
-  private final NamedParameterJdbcOperations jdbcOperations;
-  private JdbcOperations jdbcTemplate;
+  @PersistenceContext
+  private final EntityManager em;
 
-
-  public BookDaoImpl(NamedParameterJdbcOperations jdbcOperations, JdbcOperations jdbcTemplate) {
-    this.jdbcOperations = jdbcOperations;
-    this.jdbcTemplate = jdbcTemplate;
+  public BookDaoImpl(EntityManager em) {
+    this.em = em;
   }
 
   @Override
-  public void insertBook(String name, long genre_id, long author_id) {
-    String sql = "insert into books (name, genre_id, author_id) values (?, ?, ?)";
-    KeyHolder keyHolder = new GeneratedKeyHolder();
-    jdbcTemplate.update(
-        connection -> {
-          PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-          ps.setString(1, name);
-          ps.setLong(2, genre_id);
-          ps.setLong(3, author_id);
-          return ps;
-        }, keyHolder);
+  public void insertBook(Book book) {
+    if (book.getId() <= 0) {
+      em.persist(book);
 
+    } else {
+      em.merge(book);
+    }
   }
 
   @Override
-  public Book readeBookById(long id) {
-    Map<String, Object> params = Collections.singletonMap("id", id);
-    return jdbcOperations.queryForObject(
-        "select id, name from books where id = :id", params, new BookMapper());
+  public Optional<Book> readeBookById(long id) {
+    return Optional.ofNullable(em.find(Book.class, id));
   }
 
   @Override
   public List<Book> readeAllBooks() {
-    Map<Long, Book> books = jdbcOperations.query("select books.id, books.name " +
-                "from books", new BooksRepo());
-
-      return new ArrayList<>(Objects.requireNonNull(books).values());
+    EntityGraph<?> entityGraph = em.getEntityGraph("book-author-genre-entity-graph");
+    TypedQuery<Book> query = em.createQuery("select s from Book s", Book.class);
+    query.setHint("javax.persistence.fetchgraph", entityGraph);
+    return query.getResultList();
   }
 
   @Override
   public void deleteBookById(long id) {
-    Map<String, Object> params = Collections.singletonMap("id", id);
-    jdbcOperations.update(
-        "delete from books where id = :id", params
-    );
-  }
-
-  private static class BookMapper implements RowMapper<Book> {
-
-    @Override
-    public Book mapRow(ResultSet resultSet, int i) throws SQLException {
-      long id = resultSet.getLong("id");
-      String name = resultSet.getString("name");
-      return new Book(id, name);
-    }
+    Query query = em.createQuery("delete " +
+        "from Book  b " +
+        "where b.id = :id");
+    query.setParameter("id", id);
+    query.executeUpdate();
   }
 }

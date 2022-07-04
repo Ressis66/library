@@ -6,6 +6,7 @@ import ru.otus.library.dao.AuthorDao;
 import ru.otus.library.domain.Author;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class AuthorServiceImpl implements AuthorService{
@@ -19,7 +20,7 @@ public class AuthorServiceImpl implements AuthorService{
   }
 
   @Override
-  public Author readeAuthorById(long id) {
+  public Optional<Author> readeAuthorById(long id) {
     return authorDao.readeAuthorById(id);
   }
 

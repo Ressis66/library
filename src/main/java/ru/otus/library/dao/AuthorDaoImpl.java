@@ -1,73 +1,55 @@
 package ru.otus.library.dao;
 
-import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import ru.otus.library.domain.Author;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Repository
-public class AuthorDaoImpl implements AuthorDao{
+public class AuthorDaoImpl implements AuthorDao {
 
-  private final NamedParameterJdbcOperations jdbcOperations;
-  private final JdbcOperations jdbcTemplate;
+  @PersistenceContext
+  private final EntityManager em;
 
-  public AuthorDaoImpl(NamedParameterJdbcOperations jdbcOperations, JdbcOperations jdbcTemplate) {
-    this.jdbcOperations = jdbcOperations;
-    this.jdbcTemplate = jdbcTemplate;
+  public AuthorDaoImpl(EntityManager em) {
+    this.em = em;
   }
 
   @Override
   public void insertAuthor(String name) {
-    String sql = "insert into authors (name) values (?)";
-    KeyHolder keyHolder = new GeneratedKeyHolder();
-    jdbcTemplate.update(
-        connection -> {
-          PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-          ps.setString(1, name);
-          return ps;
-        }, keyHolder);
-
+    Author author = new Author(name);
+    if (author.getId() <= 0) {
+      em.persist(author);
+    } else {
+      em.merge(author);
+    }
   }
 
   @Override
-  public Author readeAuthorById(long id) {
-    Map<String, Object> params = Collections.singletonMap("id", id);
-    return jdbcOperations.queryForObject(
-        "select id, name from authors where id = :id", params, new  AuthorMapper());
-     }
+  public Optional<Author> readeAuthorById(long id) {
+    return Optional.ofNullable(em.find(Author.class, id));
+  }
+
   @Override
   public List<Author> readeAllAuthors() {
-     return jdbcOperations.query("select id, name from authors", new AuthorMapper());
+    TypedQuery<Author> query = em.createQuery("select a from Author a", Author.class);
+    return query.getResultList();
   }
 
   @Override
   public void deleteAuthorById(long id) {
-    Map<String, Object> params = Collections.singletonMap("id", id);
-    jdbcOperations.update(
-        "delete from authors where id = :id", params
-    );
+    Query query = em.createQuery("delete " +
+        "from Author a " +
+        "where a.id = :id");
+    query.setParameter("id", id);
+    query.executeUpdate();
   }
-
-  private static class AuthorMapper implements RowMapper<Author> {
-
-    @Override
-    public Author mapRow(ResultSet resultSet, int i) throws SQLException {
-      long id = resultSet.getLong("id");
-      String name = resultSet.getString("name");
-      return new Author(id, name);
-    }
-  }
-
 }
+
+
 
