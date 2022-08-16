@@ -46,10 +46,7 @@ public class BookDaoImpl implements BookDao {
 
   @Override
   public void deleteBookById(long id) {
-    Query query = em.createQuery("delete " +
-        "from Book  b " +
-        "where b.id = :id");
-    query.setParameter("id", id);
-    query.executeUpdate();
+    Book book = em.find(Book.class, id);
+    em.remove(book);
   }
 }
