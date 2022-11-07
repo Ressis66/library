@@ -2,6 +2,7 @@ package ru.otus.library.dao;
 
 import org.springframework.stereotype.Repository;
 import ru.otus.library.domain.Book;
+import ru.otus.library.domain.Comment;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
@@ -32,8 +33,8 @@ public class BookDaoImpl implements BookDao {
   }
 
   @Override
-  public Optional<Book> readeBookById(long id) {
-    return Optional.ofNullable(em.find(Book.class, id));
+  public Book readeBookById(long id) {
+    return em.find(Book.class, id);
   }
 
   @Override
@@ -48,5 +49,23 @@ public class BookDaoImpl implements BookDao {
   public void deleteBookById(long id) {
     Book book = em.find(Book.class, id);
     em.remove(book);
+  }
+
+  @Override
+  public void insertComment(Comment comment) {
+    if (comment.getId() <= 0) {
+      em.persist(comment);
+    }
+    else {
+    em.merge(comment);
+  }
+  }
+
+  @Override
+  public List<Comment> readeAllCommentsByBook(long id) {
+    TypedQuery<Comment> query = em.createQuery(
+        "select distinct c from Comment c inner join c.book b where b.id = :id", Comment.class);
+    query.setParameter("id", id);
+    return query.getResultList();
   }
 }

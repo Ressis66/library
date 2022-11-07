@@ -10,12 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
-
 @Table(name = "books")
 @NamedEntityGraph(name = "book-author-genre-entity-graph",
     attributeNodes = {@NamedAttributeNode("author"),@NamedAttributeNode("genre")})
@@ -27,13 +28,26 @@ public class Book {
  @Column(name = "name", nullable = false, unique = true)
  private String name;
 
- @OneToOne(targetEntity = Author.class, cascade = CascadeType.ALL)
+ @ManyToOne(targetEntity = Author.class, cascade = CascadeType.ALL)
  @JoinColumn(name = "author_id")
  private Author author;
 
- @OneToMany(targetEntity = Genre.class, cascade = CascadeType.ALL)
+ @ManyToOne(targetEntity = Genre.class, cascade = CascadeType.ALL)
  @JoinColumn(name = "genre_id")
  private Genre genre;
+
+  @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL)
+  @JoinColumn(name = "comment_id")
+  private List<Comment> commentList;
+
+  public Book(Long id, String name, Author author, Genre genre, List<Comment> commentList) {
+    this.id = id;
+    this.name = name;
+    this.author = author;
+    this.genre = genre;
+    this.commentList=commentList;
+  }
+
 
   public Book(Long id, String name, Author author, Genre genre) {
     this.id = id;
@@ -80,5 +94,13 @@ public class Book {
 
   public void setGenre(Genre genre) {
     this.genre = genre;
+  }
+
+  public List<Comment> getCommentList() {
+    return commentList;
+  }
+
+  public void setCommentList(List<Comment> commentList) {
+    this.commentList = commentList;
   }
 }

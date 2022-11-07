@@ -11,8 +11,11 @@ import java.util.Optional;
 @Component
 public class AuthorServiceImpl implements AuthorService{
 
-  @Autowired
   private AuthorDao authorDao;
+
+  public AuthorServiceImpl(AuthorDao authorDao) {
+    this.authorDao=authorDao;
+  }
 
   @Override
   public void insertAuthor(String name) {

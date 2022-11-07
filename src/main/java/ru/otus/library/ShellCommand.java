@@ -6,6 +6,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.library.domain.Author;
 import ru.otus.library.domain.Book;
+import ru.otus.library.domain.Comment;
 import ru.otus.library.service.AuthorService;
 import ru.otus.library.service.BookService;
 import ru.otus.library.service.GenreService;
@@ -82,6 +83,22 @@ public class ShellCommand {
   @ShellMethod(key = "delete_genre", value = "delete genres")
   public void deleteGenreAccordingToId(@ShellOption({"id", "i"}) long id){
     genreService.deleteGenreById(id);
+  }
+
+
+  @ShellMethod(key = "create_comment", value = "create comment")
+  public void createComment(
+      @ShellOption({"username", "u"}) String comment, @ShellOption({"bookId", "bId"}) Long id)  throws IOException {
+    Book book = bookService.readeBookById(id);
+    Comment comment1 = new Comment(comment, book);
+    bookService.insertComment(comment1);
+  }
+
+  @ShellMethod(key = "reade_comments", value = "reade comments")
+  public void readeCommentsByBook(
+      @ShellOption({"bookId", "bId"}) Long id)  throws IOException {
+     bookService.readeAllCommentsByBook(id);
+
   }
 
 }

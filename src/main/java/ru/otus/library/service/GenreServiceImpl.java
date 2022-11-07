@@ -11,8 +11,11 @@ import java.util.Optional;
 @Component
 public class GenreServiceImpl implements  GenreService{
 
-  @Autowired
   private GenreDao genreDao;
+
+  public GenreServiceImpl(GenreDao genreDao) {
+    this.genreDao = genreDao;
+  }
 
   @Override
   public void insertGenre(String name) {
