@@ -1,0 +1,39 @@
+package ru.otus.library.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import ru.otus.library.dao.AuthorDao;
+import ru.otus.library.domain.Author;
+
+import java.util.List;
+import java.util.Optional;
+
+@Component
+public class AuthorServiceImpl implements AuthorService{
+
+  private AuthorDao authorDao;
+
+  public AuthorServiceImpl(AuthorDao authorDao) {
+    this.authorDao=authorDao;
+  }
+
+  @Override
+  public void insertAuthor(String name) {
+     authorDao.insertAuthor(name);
+  }
+
+  @Override
+  public Optional<Author> readeAuthorById(long id) {
+    return authorDao.readeAuthorById(id);
+  }
+
+  @Override
+  public List<Author> readeAllAuthors() {
+    return authorDao.readeAllAuthors();
+  }
+
+  @Override
+  public void deleteAuthorById(long id) {
+    authorDao.deleteAuthorById(id);
+  }
+}
