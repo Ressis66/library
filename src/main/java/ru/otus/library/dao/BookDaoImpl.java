@@ -61,11 +61,4 @@ public class BookDaoImpl implements BookDao {
   }
   }
 
-  @Override
-  public List<Comment> readeAllCommentsByBook(long id) {
-    TypedQuery<Comment> query = em.createQuery(
-        "select distinct c from Comment c inner join c.book b where b.id = :id", Comment.class);
-    query.setParameter("id", id);
-    return query.getResultList();
-  }
 }

@@ -4,17 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.library.domain.Author;
 import ru.otus.library.domain.Book;
 import ru.otus.library.domain.Comment;
 import ru.otus.library.service.AuthorService;
 import ru.otus.library.service.BookService;
 import ru.otus.library.service.GenreService;
-
-
 import java.io.IOException;
-import java.util.List;
-
 
 @ShellComponent
 public class ShellCommand {
@@ -94,12 +89,6 @@ public class ShellCommand {
     bookService.insertComment(comment1);
   }
 
-  @ShellMethod(key = "reade_comments", value = "reade comments")
-  public void readeCommentsByBook(
-      @ShellOption({"bookId", "bId"}) Long id)  throws IOException {
-     bookService.readeAllCommentsByBook(id);
-
-  }
 
 }
 

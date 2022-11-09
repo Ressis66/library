@@ -45,9 +45,5 @@ public class BookServiceImpl implements BookService {
     bookDao.insertComment(comment);
   }
 
-  @Override
-  public List<Comment> readeAllCommentsByBook(long id){
-    return bookDao.readeAllCommentsByBook(id);
-  }
 
 }

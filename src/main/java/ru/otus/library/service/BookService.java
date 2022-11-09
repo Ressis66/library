@@ -12,5 +12,4 @@ public interface BookService {
   List<Book> readeAllBooks();
   void deleteBookById(long id);
   void insertComment(Comment comment);
-  List<Comment> readeAllCommentsByBook(long id);
 }
