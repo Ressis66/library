@@ -39,7 +39,7 @@ public class BookDaoImpl implements BookDao {
 
   @Override
   public List<Book> readeAllBooks() {
-    EntityGraph<?> entityGraph = em.getEntityGraph("book-author-genre-entity-graph");
+    EntityGraph<?> entityGraph = em.getEntityGraph("book-author-genre-commentList-entity-graph");
     TypedQuery<Book> query = em.createQuery("select s from Book s", Book.class);
     query.setHint("javax.persistence.fetchgraph", entityGraph);
     return query.getResultList();

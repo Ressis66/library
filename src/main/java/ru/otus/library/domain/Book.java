@@ -18,8 +18,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "books")
-@NamedEntityGraph(name = "book-author-genre-entity-graph",
-    attributeNodes = {@NamedAttributeNode("author"),@NamedAttributeNode("genre")})
+@NamedEntityGraph(name = "book-author-genre-commentList-entity-graph",
+    attributeNodes = {@NamedAttributeNode("author"),@NamedAttributeNode("genre"), @NamedAttributeNode("commentList")})
 public class Book {
  @Id
  @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class Book {
  @JoinColumn(name = "genre_id")
  private Genre genre;
 
-  @OneToMany(mappedBy = "book", fetch=FetchType.EAGER)
+  @OneToMany(mappedBy = "book", fetch=FetchType.LAZY)
   private List<Comment> commentList;
 
   public Book(Long id, String name, Author author, Genre genre, List<Comment> commentList) {
