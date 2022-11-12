@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface GenreDao {
   void insertGenre(String name) ;
-  Optional<Genre> readeGenreById(long id);
+  Optional<Genre> readeGenreById(Long id);
   List<Genre> readeAllGenres();
-  void deleteGenreById(long id);
+  void deleteGenreById(Long id);
 }

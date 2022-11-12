@@ -36,8 +36,7 @@ public class Book {
  @JoinColumn(name = "genre_id")
  private Genre genre;
 
-  @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL)
-  @JoinColumn(name = "comment_id")
+  @OneToMany(mappedBy = "book", fetch=FetchType.EAGER)
   private List<Comment> commentList;
 
   public Book(Long id, String name, Author author, Genre genre, List<Comment> commentList) {

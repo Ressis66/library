@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AuthorDao {
   void insertAuthor(String name);
-  Optional <Author> readeAuthorById(long id);
+  Optional <Author> readeAuthorById(Long id);
   List<Author> readeAllAuthors();
-  void deleteAuthorById(long id);
+  void deleteAuthorById(Long id);
 }

@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface BookDao {
   void insertBook(Book book);
-  Book readeBookById(long id);
+  Book readeBookById(Long id);
   List<Book> readeAllBooks();
-  void deleteBookById(long id);
+  void deleteBookById(Long id);
   void insertComment(Comment comment);
 }
 

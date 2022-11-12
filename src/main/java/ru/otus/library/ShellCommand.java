@@ -37,7 +37,7 @@ public class ShellCommand {
   }
 
   @ShellMethod(key = "delete_authors", value = "delete authors")
-  public void deleteAuthorAccordingToId(@ShellOption({"id", "i"}) long id){
+  public void deleteAuthorAccordingToId(@ShellOption({"id", "i"}) Long id){
     authorService.deleteAuthorById(id);
   }
 
@@ -57,7 +57,7 @@ public class ShellCommand {
   }
 
   @ShellMethod(key = "delete_books", value = "delete books")
-  public void deleteBookAccordingToId(@ShellOption({"id", "i"}) long id){
+  public void deleteBookAccordingToId(@ShellOption({"id", "i"}) Long id){
     bookService.deleteBookById(id);
   }
 
@@ -76,7 +76,7 @@ public class ShellCommand {
   }
 
   @ShellMethod(key = "delete_genre", value = "delete genres")
-  public void deleteGenreAccordingToId(@ShellOption({"id", "i"}) long id){
+  public void deleteGenreAccordingToId(@ShellOption({"id", "i"}) Long id){
     genreService.deleteGenreById(id);
   }
 
@@ -89,6 +89,12 @@ public class ShellCommand {
     bookService.insertComment(comment1);
   }
 
+  @ShellMethod(key = "reade_comments", value = "reade comments")
+  public void readeCommentsByBook(
+      @ShellOption({"bookId", "bId"}) Long id)  throws IOException {
+    Book book = bookService.readeBookById(id);
+    book.getCommentList();
 
+  }
 }
 
