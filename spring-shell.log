@@ -23,3 +23,28 @@
 1656342297366:reade_books
 1656343086187:stacktrace
 1656344609262:reade_books
+1668227573808:reade_comments bId 1
+1668227695251:reade_comments 1
+1668228778214:INSERT INTO comments (id, content)
+1668228792272:VALUES(40, 'Good');
+1668228813046:reade_comments 1
+1668228992824:reade_books
+1668229127411:reade_comments 1
+1668229148922:stacktrace
+1668229245863:reade_books
+1668229416686:reade_authors
+1668229580399:create_comment cool 1
+1668230908959:stacktrace
+1668237125531:reade_comments 1
+1668237403561:spring:
+1668237418575:reade_comments 1
+1668237798448:reade_books
+1668238301081:reade_books 1
+1668238324118:reade_comments 1
+1668238353700:reade_comments
+1668238510423:reade_comments 1L
+1668238544936:reade_comments 1
+1668238601732:stacktrace
+1668239044743:reade_comments 1
+1668239093761:reade_comments 21
+1668251890247:reade_books
